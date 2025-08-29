@@ -167,12 +167,26 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 #advance-indicator {
   position: absolute;
   right: 12px;
-  bottom: 8px;
+  bottom: 28px;
   color: var(--muted);
   opacity: 0;
   transition: opacity 180ms ease;
 }
-#dialogue-box.ready #advance-indicator { opacity: 1; }
+#continue-hint {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 8px;
+  text-align: left;
+  color: #94a3b8; /* light gray hint */
+  font-size: 0.85rem;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+#dialogue-box.ready #advance-indicator,
+#dialogue-box.ready #continue-hint {
+  opacity: 1;
+}
 
 .overlay {
   position: absolute;

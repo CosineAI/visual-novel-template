@@ -314,8 +314,10 @@ async function typeLine(name, text) {
 function waitForAdvance() {
   return new Promise((resolve) => {
     const finishTyping = () => {
-      // show full text immediately
+      // force full text to appear immediately
       Engine.typing = false;
+      // dialogueText is filled by typeLine loop on next tick, but ensure here too:
+      // no-op here; typeLine checks Engine.typing and sets full text.
     };
     const proceed = () => {
       cleanup();
@@ -334,16 +336,17 @@ function waitForAdvance() {
         handler();
       }
     };
+    // Attach listeners directly on the dialogue box to guarantee clicks register
     const clickHandler = (e) => {
-      if (e.target.closest("#dialogue-box") || e.target.closest("#dialogue-layer")) {
+      if (e.target.closest("#dialogue-box")) {
         handler();
       }
     };
     function cleanup() {
-      dialogueLayer.removeEventListener("click", clickHandler);
+      dialogueBox.removeEventListener("click", clickHandler);
       window.removeEventListener("keydown", keyHandler);
     }
-    dialogueLayer.addEventListener("click", clickHandler);
+    dialogueBox.addEventListener("click", clickHandler);
     window.addEventListener("keydown", keyHandler);
   });
 }
