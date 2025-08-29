@@ -153,7 +153,8 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   border: 1px solid rgba(0,0,0,0.06);
   border-radius: 12px;
   min-height: 120px;
-  padding: 16px 20px 22px 20px;
+  /* Increase bottom padding to align hint with same left padding space */
+  padding: 16px 20px 28px 20px;
 }
 #dialogue-speaker {
   font-weight: 700;
