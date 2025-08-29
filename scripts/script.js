@@ -313,14 +313,20 @@ async function typeLine(name, text) {
 
 function waitForAdvance() {
   return new Promise((resolve) => {
-    const handler = (e) => {
-      if (Engine.typing) {
-        // skip typing
-        Engine.typing = false;
-        return;
-      }
+    const finishTyping = () => {
+      // show full text immediately
+      Engine.typing = false;
+    };
+    const proceed = () => {
       cleanup();
       resolve();
+    };
+    const handler = () => {
+      if (Engine.typing) {
+        finishTyping();
+        return;
+      }
+      proceed();
     };
     const keyHandler = (e) => {
       if (e.code === "Space" || e.code === "Enter") {
