@@ -180,11 +180,9 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   text-align: left;
   color: #94a3b8; /* light gray hint */
   font-size: 0.85rem;
-  opacity: 0;
-  transition: opacity 180ms ease;
+  opacity: 1; /* always visible */
 }
-#dialogue-box.ready #advance-indicator,
-#dialogue-box.ready #continue-hint {
+#dialogue-box.ready #advance-indicator {
   opacity: 1;
 }
 

@@ -291,11 +291,23 @@ async function typeLine(name, text) {
   dialogueSpeaker.textContent = name ? String(name) : "";
   dialogueSpeaker.style.display = name ? "block" : "none";
 
+  // Prepare state
+  const full = String(text);
   dialogueText.textContent = "";
   dialogueBox.classList.remove("ready");
   Engine.typing = true;
 
-  const full = String(text);
+  // Ensure skip-to-full works immediately on first click
+  const skipHandler = () => {
+    if (Engine.typing) {
+      Engine.typing = false;
+      dialogueText.textContent = full;
+    }
+  };
+  // Use capture to ensure it runs even if descendants stop propagation
+  dialogueBox.addEventListener("click", skipHandler, { capture: true, once: true });
+
+  // Type loop
   const chars = [...full];
   for (let i = 0; i < chars.length; i++) {
     if (!Engine.typing) break;
@@ -303,10 +315,10 @@ async function typeLine(name, text) {
     await delay(Engine.typeSpeed);
   }
 
+  // Finalize
   if (!Engine.typing) {
     dialogueText.textContent = full;
   }
-
   Engine.typing = false;
   dialogueBox.classList.add("ready");
 }
