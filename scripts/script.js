@@ -28,6 +28,7 @@ const muteBtn = $("#mute-btn");
 const dialogueLayer = $("#dialogue-layer");
 const nameTag = $("#name-tag");
 const dialogueBox = $("#dialogue-box");
+const dialogueSpeaker = $("#dialogue-speaker");
 const dialogueText = $("#dialogue-text");
 
 const choicesOverlay = $("#choices-overlay");
@@ -274,30 +275,29 @@ async function runDialogueLoop(scene) {
 
 /* Typing system */
 function setNameTag(maybe) {
-  if (maybe) {
-    nameTag.textContent = maybe;
-    nameTag.style.display = "block";
-  } else {
-    nameTag.style.display = "none";
-    nameTag.textContent = "";
-  }
+  // external name tag no longer used; keep hidden
+  nameTag.style.display = "none";
 }
+
 async function typeLine(name, text) {
-  setNameTag(name);
+  // Speaker inside dialogue box (bold, colored)
+  dialogueSpeaker.textContent = name ? String(name) : "";
+  dialogueSpeaker.style.display = name ? "block" : "none";
+
   dialogueText.textContent = "";
   dialogueBox.classList.remove("ready");
   Engine.typing = true;
 
-  const chars = [...String(text)];
-  for (let i = 0; i < chars.length; i++) {
+  const full = String(text);
+  const chars = [...full];
+  for (let i = 0; i &lt; chars.length; i++) {
     if (!Engine.typing) break;
     dialogueText.textContent += chars[i];
     await delay(Engine.typeSpeed);
   }
 
-  // If typing was interrupted, ensure full text
   if (!Engine.typing) {
-    dialogueText.textContent = text;
+    dialogueText.textContent = full;
   }
 
   Engine.typing = false;

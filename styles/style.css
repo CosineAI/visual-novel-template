@@ -134,20 +134,6 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   z-index: 10;
 }
 #name-tag {
-  position: absolute;
-  bottom: 140px;
-  left: 26px;
-  background: var(--panel);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-bottom: none;
-  padding: 8px 12px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  color: var(--accent);
-  font-weight: 600;
-  min-width: 120px;
-  text-align: center;
-  backdrop-filter: blur(6px);
   display: none;
 }
 
@@ -157,10 +143,15 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   margin: 0 auto;
   background: var(--panel);
   backdrop-filter: blur(6px);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(0,0,0,0.06);
   border-radius: 12px;
   min-height: 120px;
-  padding: 18px 22px 24px 22px;
+  padding: 16px 20px 22px 20px;
+}
+#dialogue-speaker {
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 6px;
 }
 #dialogue-text {
   min-height: 60px;
