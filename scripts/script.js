@@ -290,7 +290,7 @@ async function typeLine(name, text) {
 
   const full = String(text);
   const chars = [...full];
-  for (let i = 0; i &lt; chars.length; i++) {
+  for (let i = 0; i < chars.length; i++) {
     if (!Engine.typing) break;
     dialogueText.textContent += chars[i];
     await delay(Engine.typeSpeed);
