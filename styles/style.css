@@ -167,21 +167,24 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 }
 #advance-indicator {
   position: absolute;
-  right: 12px;
-  bottom: 28px;
+  right: 16px;
+  bottom: 8px;
   color: var(--muted);
   opacity: 0;
   transition: opacity 180ms ease;
 }
 #continue-hint {
   position: absolute;
-  left: 16px;
-  right: 16px;
+  left: 20px; /* matches left padding of dialogue box content */
+  right: 56px; /* leave space for arrow on the same line */
   bottom: 8px;
   text-align: left;
   color: #94a3b8; /* light gray hint */
   font-size: 0.85rem;
   opacity: 1; /* always visible */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 #dialogue-box.ready #advance-indicator {
   opacity: 1;
