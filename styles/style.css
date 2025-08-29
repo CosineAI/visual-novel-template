@@ -115,6 +115,16 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   backdrop-filter: blur(6px);
 }
 
+.dev-toggle {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 20;
+  background: var(--panel);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(6px);
+}
+
 #dialogue-layer {
   position: absolute;
   bottom: 0;
