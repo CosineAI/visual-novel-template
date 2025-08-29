@@ -97,7 +97,13 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   max-height: 65vh;
   object-fit: contain;
   display: none;
+  opacity: 0;
   filter: drop-shadow(0 12px 24px rgba(0,0,0,0.35));
+  transition: opacity 300ms ease;
+}
+#portrait-image.show {
+  display: block;
+  opacity: 1;
 }
 #wipe-overlay {
   position: absolute;

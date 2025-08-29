@@ -174,8 +174,15 @@ function setBackground(src) {
 function setPortrait(src) {
   if (src) {
     portraitImage.src = src;
+    // prepare for fade-in
+    portraitImage.classList.remove("show");
     portraitImage.style.display = "block";
+    // allow layout to apply before adding show (opacity transition)
+    requestAnimationFrame(() => {
+      portraitImage.classList.add("show");
+    });
   } else {
+    portraitImage.classList.remove("show");
     portraitImage.style.display = "none";
     portraitImage.removeAttribute("src");
   }
