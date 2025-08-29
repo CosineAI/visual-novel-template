@@ -93,10 +93,11 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   bottom: 120px; /* aligns to dialogue top */
   left: 50%;
   transform: translateX(-50%);
-  height: 70%;
+  height: 55%;
+  max-height: 65vh;
   object-fit: contain;
   display: none;
-  filter: drop-shadow(0 12px 24px rgba(0,0,0,0.5));
+  filter: drop-shadow(0 12px 24px rgba(0,0,0,0.35));
 }
 #wipe-overlay {
   position: absolute;
