@@ -10,7 +10,7 @@
  */
 
 const $ = (sel) => document.querySelector(sel);
-const $ = (sel) => Array.from(document.querySelectorAll(sel));
+const qsAll = (sel) => Array.from(document.querySelectorAll(sel));
 
 /* DOM refs */
 const titleScreen = $("#title-screen");
@@ -434,7 +434,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Dev console: jump buttons
-  $("#dev-console .dev-actions button[data-jump]").forEach((btn) => {
+  qsAll("#dev-console .dev-actions button[data-jump]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const target = btn.getAttribute("data-jump");
       if (Scenes[target]) {
