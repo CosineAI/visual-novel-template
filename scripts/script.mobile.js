@@ -1,8 +1,8 @@
 /**
- * Simple Visual Novel Engine Demo
+ * Simple Visual Novel Engine Demo (mobile-friendly)
  * - Title screen with Continue / Start New Game
  * - Two demo scenes with a choice
- * - Typing dialogue, click or Space/Enter to advance/skip
+ * - Typing dialogue, tap or Space/Enter to advance/skip
  * - Scene change wipe-left transition; portrait mounts after wipe
  * - Optional BGM with mute toggle (top-left)
  * - Choices overlay; affects state
@@ -10,7 +10,7 @@
  */
 
 const $ = (sel) => document.querySelector(sel);
-const qsa = (sel) => Array.from(document.querySelectorAll(sel));
+const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
 /* DOM refs */
 const titleScreen = $("#title-screen");
@@ -297,7 +297,7 @@ async function typeLine(name, text) {
   dialogueBox.classList.remove("ready");
   Engine.typing = true;
 
-  // Ensure skip-to-full works immediately on first click
+  // Ensure skip-to-full works immediately on first press/click
   const skipHandler = () => {
     if (Engine.typing) {
       Engine.typing = false;
@@ -305,7 +305,7 @@ async function typeLine(name, text) {
     }
   };
   // Use capture to ensure it runs even if descendants stop propagation
-  dialogueBox.addEventListener("click", skipHandler, { capture: true, once: true });
+  addPress(dialogueBox, skipHandler, { capture: true });
 
   // Type loop
   const chars = [...full];
@@ -348,17 +348,17 @@ function waitForAdvance() {
         handler();
       }
     };
-    // Attach listeners directly on the dialogue box to guarantee clicks register
+    // Attach listeners directly on the dialogue box to guarantee presses register
     const clickHandler = (e) => {
       if (e.target.closest("#dialogue-box")) {
         handler();
       }
     };
+    const removePress = addPress(dialogueBox, clickHandler);
     function cleanup() {
-      dialogueBox.removeEventListener("click", clickHandler);
+      removePress();
       window.removeEventListener("keydown", keyHandler);
     }
-    dialogueBox.addEventListener("click", clickHandler);
     window.addEventListener("keydown", keyHandler);
   });
 }
@@ -371,7 +371,7 @@ function presentChoice(entry) {
       const btn = document.createElement("button");
       btn.className = "choice-btn";
       btn.textContent = opt.text;
-      btn.addEventListener("click", () => {
+      addPress(btn, () => {
         // apply state mutation
         if (opt.set) Object.assign(Engine.flags, opt.set);
         // go to next scene if specified
@@ -409,6 +409,24 @@ function delay(ms) {
 }
 function nextAnimationFrame() {
   return new Promise((r) => requestAnimationFrame(() => r()));
+}
+/**
+ * Add a unified "press" handler (pointer/touch/mouse) with a click fallback.
+ * Removes all listeners after the first invocation to avoid double-triggering.
+ * Returns a cleanup function that can be used to remove listeners pre-emptively.
+ */
+function addPress(el, handler, options) {
+  const events = (window.PointerEvent ? ["pointerdown"] : ["touchstart", "mousedown"]).concat("click");
+  let fired = false;
+  const wrapped = (e) => {
+    if (fired) return;
+    fired = true;
+    // Remove all listeners to prevent duplicate triggers and leaks.
+    events.forEach((type) => el.removeEventListener(type, wrapped, options));
+    handler(e);
+  };
+  events.forEach((type) => el.addEventListener(type, wrapped, options));
+  return () => events.forEach((type) => el.removeEventListener(type, wrapped, options));
 }
 
 /* Dev Console */
@@ -462,23 +480,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Dev console: jump buttons
-  qsa("#dev-console .dev-actions button[data-jump]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const target = btn.getAttribute("data-jump");
-      if (Scenes[target]) {
-        Engine.sceneId = target;
-        Engine.lineIndex = 0;
-        saveGame();
-        if (!gameScreen.classList.contains("active")) enterGame();
-        else showScene(target, { wipe: true, fromStart: true });
-        toggleDevConsole(false);
-      }
-    });
-  });
-});
-
-  // Dev console: jump buttons
-  $("#dev-console .dev-actions button[data-jump]").forEach((btn) => {
+  $$("#dev-console .dev-actions button[data-jump]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const target = btn.getAttribute("data-jump");
       if (Scenes[target]) {
